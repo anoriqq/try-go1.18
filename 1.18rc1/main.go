@@ -20,6 +20,16 @@ func SumFloats(m map[string]float64) float64 {
 	return s
 }
 
+// SumIntsOrFloats sums the values of map m. It supports both int64 and float64
+// as thes for map values.
+func SumIntsOrFloats[K comparable, V int64 | float64](m map[K]V) V {
+	var s V
+	for _, v := range m {
+		s += v
+	}
+	return s
+}
+
 func main() {
 	// Initialize a map for the interger values
 	ints := map[string]int64{
@@ -36,5 +46,8 @@ func main() {
 	fmt.Printf("Non-Generic Sums: %v and %v\n",
 		SumInts(ints),
 		SumFloats(floats))
-}
 
+	fmt.Printf("Generic Sums: %v and %v\n",
+		SumIntsOrFloats[string, int64](ints),
+		SumIntsOrFloats[string, float64](floats))
+}
